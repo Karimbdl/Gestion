@@ -1,25 +1,34 @@
 import folium
 from geopy.distance import geodesic
-import random
+import json
 
 # Coordonées des salles
 coords = {
     "Hall rez-de-chaussée / Accueil": [43.6012547, 3.9122047],
-    # Ajoutez les autres salles ici...
+    # Ajoute les autres salles ici...
 }
 
-def get_current_position():
-    # Simule une position aléatoire proche de la salle
-    lat_offset = random.uniform(-0.0001, 0.0001)
-    lon_offset = random.uniform(-0.0001, 0.0001)
-    return [43.6012547 + lat_offset, 3.9122047 + lon_offset]
+def load_incidents():
+    try:
+        with open('incidents.json', 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
 
 def calculate_distance(coord1, coord2):
     return geodesic(coord1, coord2).meters
 
-def regleur_map(incidents):
-    mymap = folium.Map(location=[43.6012547, 3.9122047], zoom_start=18)
-    current_position = get_current_position()  # Position actuelle du régleur
+def regleur_map(current_location):
+    mymap = folium.Map(location=current_location, zoom_start=18)
+
+    # Marqueur pour la position actuelle du régleur
+    folium.Marker(
+        current_location,
+        popup="Vous êtes ici",
+        icon=folium.Icon(color='blue')
+    ).add_to(mymap)
+
+    incidents = load_incidents()
     for incident in incidents:
         salle = incident['salle']
         urgence = incident['urgence']
@@ -32,7 +41,7 @@ def regleur_map(incidents):
             color = 'orange'
 
         coord = coords[salle]
-        dist = calculate_distance(current_position, coord)
+        dist = calculate_distance(current_location, coord)  # Distance à la salle
 
         folium.Marker(
             coord,

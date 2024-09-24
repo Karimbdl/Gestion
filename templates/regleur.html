@@ -7,8 +7,9 @@
 </head>
 <body>
     <h1>Carte du Régleur</h1>
-    <p>{{ notification }}</p>
-    <div>{{ map | safe }}</div>
-    <a href="/">Retour à la carte des étudiants</a>
+    <div>
+        {{ map|safe }}
+    </div>
+    <a href="{{ url_for('regleur_view') }}">Déconnexion</a>
 </body>
 </html>

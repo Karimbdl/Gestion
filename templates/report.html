@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signaler un Incident</title>
+</head>
+<body>
+    <h1>Signaler un Incident dans {{ salle }}</h1>
+    <form method="post">
+        <label for="nom">Nom:</label>
+        <input type="text" id="nom" name="nom" required><br>
+
+        <label for="prenom">Prénom:</label>
+        <input type="text" id="prenom" name="prenom" required><br>
+
+        <label for="date_naissance">Date de Naissance:</label>
+        <input type="date" id="date_naissance" name="date_naissance" required><br>
+
+        <label for="probleme">Problème:</label>
+        <textarea id="probleme" name="probleme" required></textarea><br>
+
+        <label for="urgence">Urgence:</label>
+        <select id="urgence" name="urgence" required>
+            <option value="haute">Haute</option>
+            <option value="moyenne">Moyenne</option>
+            <option value="basse">Basse</option>
+        </select><br>
+
+        <input type="hidden" name="salle" value="{{ salle }}">
+        <input type="submit" value="Signaler">
+    </form>
+</body>
+</html>
